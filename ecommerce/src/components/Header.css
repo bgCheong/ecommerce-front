@@ -1,0 +1,26 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.header-logo a {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: #343a40;
+}
+
+.header-nav a {
+  margin-left: 1.5rem;
+  text-decoration: none;
+  color: #495057;
+  font-size: 1rem;
+}
+
+.header-nav a:hover {
+  color: #007bff;
+}
