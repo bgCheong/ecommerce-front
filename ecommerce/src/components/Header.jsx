@@ -10,6 +10,8 @@ function Header() {
       <nav className="header-nav">
         <Link to="/">홈</Link>
         <Link to="/products">상품 목록</Link>
+        <Link to="/signup">회원가입</Link> 
+        <Link to="/login">로그인</Link> 
       </nav>
     </header>
   );

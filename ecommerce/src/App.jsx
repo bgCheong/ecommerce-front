@@ -2,6 +2,8 @@ import { Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import ProductListPage from './pages/ProductListPage';
 import ProductDetailPage from './pages/ProductDetailPage'; // 1. 상세 페이지 import
+import SignUpPage from './pages/SignUpPage';
+import LoginPage from './pages/LoginPage';
 import Layout from './components/Layout';
 
 function App() {
@@ -12,6 +14,8 @@ function App() {
         <Route path="products" element={<ProductListPage />} />
         {/* 2. 동적 경로 라우트 추가 */}
         <Route path="products/:productId" element={<ProductDetailPage />} />
+        <Route path="signup" element={<SignUpPage />} />
+        <Route path="login" element={<LoginPage />} /> {/* 2. 경로 추가 */}
       </Route>
     </Routes>
   );
