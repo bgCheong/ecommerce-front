@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate , useOutletContext  } from 'react-router-dom';
 import { loginUser } from '../api/usersApi';
 
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { setIsLoggedIn } = useOutletContext(); // context에서 함수 받아오기
   const navigate = useNavigate(); // 페이지 이동을 위한 hook
 
   const handleSubmit = async (e) => {
@@ -21,11 +22,12 @@ function LoginPage() {
       if (response.success) {
         // 로그인 성공 시 토큰을 브라우저의 localStorage에 저장
         localStorage.setItem('accessToken', response.token);
+        setIsLoggedIn(true);
         alert('로그인에 성공했습니다.');
         navigate('/'); // 메인 페이지로 이동
       }
     } catch (error) {
-      alert(`로그인 실패: ${error.message}`);
+      alert(`${error.message}`);
     } finally {
       setIsSubmitting(false);
     }
