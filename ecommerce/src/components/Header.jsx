@@ -1,14 +1,23 @@
 import { Link, useNavigate } from 'react-router-dom';
+import { logoutUser } from '../api/usersApi';
 import './Header.css';
 
 function Header({ isLoggedIn, setIsLoggedIn }) {
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    localStorage.removeItem('accessToken'); // 토큰 삭제
-    setIsLoggedIn(false); // 로그아웃 상태로 변경
-    alert('로그아웃 되었습니다.');
-    navigate('/'); // 홈으로 이동
+  const handleLogout = async () => {
+     try {
+      await logoutUser(); // 로그아웃 API 호출
+    } catch (error) {
+      console.error(error); // 실패하더라도 프론트엔드에서는 로그아웃 처리
+    } finally {
+      // 두 토큰 모두 삭제
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      setIsLoggedIn(false);
+      alert('로그아웃 되었습니다.');
+      navigate('/');
+    }
   };
 
   return (

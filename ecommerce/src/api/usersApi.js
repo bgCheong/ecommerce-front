@@ -12,27 +12,48 @@ export const signUpUser = async (userData) => {
   }
 };
 
+
+export const duplicateCheckUser = async (credentials) => {
+
+  try {
+    const response = await apiClient.post('/api/users/duplicate', credentials);
+    return response.data;
+  } catch (error) {
+    const errorMessage = error.response?.data?.message;
+    throw new Error(errorMessage);
+  }
+
+}
+
 export const loginUser = async (credentials) => {
   try {
     const response = await apiClient.post('/api/users/login', credentials);
-
-    // 응답 헤더에서 JWT 토큰 추출
-    const token = response.headers['authorization']?.split(' ')[1]; // "Bearer " 접두사 제거
-
-    if (token) {
-      // 성공 시 토큰 반환
-      return { success: true, token: token };
-    } else {
-      throw new Error('응답에서 토큰을 찾을 수 없습니다.');
-    }
+    return { success: true, data: response.data };
   } catch (error) {
-
-    if (error.response && error.response.data && error.response.data.error) {
-      throw new Error(error.response.data.error);
-    } else {
-      throw new Error('로그인에 실패했습니다. 네트워크 상태를 확인해주세요.');
-    }
+    const errorMessage = error.response?.data?.message || '로그인에 실패했습니다.';
+    throw new Error(errorMessage);
   }
+};
+
+export const logoutUser = async () => {
+  try {
+    // 로그아웃 API 호출 (헤더의 토큰은 axios 인터셉터가 자동으로 추가해줌)
+    const response = await apiClient.post('/api/users/logout');
+    return response.data;
+  } catch (error) {
+    const errorMessage = error.response?.data?.message || '로그아웃에 실패했습니다.';
+    throw new Error(errorMessage);
+  }
+};
+
+// 토큰 재발급을 위한 API 함수 (나중에 user-service에 해당 API를 만들어야 함)
+export const refreshToken = async (token) => {
+    try {
+        const response = await apiClient.post('/api/users/refresh', { refreshToken: token });
+        return response.data;
+    } catch (error) {
+        throw new Error('토큰 재발급에 실패했습니다.');
+    }
 };
 
 export const getMyInfo = async () => {

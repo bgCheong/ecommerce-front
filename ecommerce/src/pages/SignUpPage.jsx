@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { signUpUser } from '../api/usersApi';
+import { signUpUser , duplicateCheckUser } from '../api/usersApi';
 
 function SignUpPage() {
   const [formData, setFormData] = useState({
+    id: '',
     email: '',
     password: '',
     name: '',
@@ -46,6 +47,16 @@ function SignUpPage() {
     setFormData(prevState => ({ ...prevState, [name]: value }));
   };
 
+  const handleDuplicateSearch = async () => {
+
+    try {
+      const response = await duplicateCheckUser({ id : formData.id });
+      alert(response);
+    } catch (error) {
+      alert(`${error.message}`);
+    }
+  };
+
   const handleAddressSearch = () => {
     alert('주소 검색 기능은 준비 중입니다.');
   };
@@ -54,6 +65,11 @@ function SignUpPage() {
     e.preventDefault();
     if (!isPasswordValid) { // 비밀번호 유효성을 통과해야만 제출
       alert('비밀번호가 형식에 맞지 않습니다.');
+      return;
+    }
+
+    if (!formData.id.trim()) {
+      alert('이메일을 입력해주세요.');
       return;
     }
 
@@ -91,6 +107,11 @@ function SignUpPage() {
       <h1>회원가입</h1>
       <form onSubmit={handleSubmit}>
         {/* ... email, name, phoneNumber, address 필드 ... */}
+        <div>
+          <label>아이디</label>
+          <input type="id" name="id" value={formData.id} onChange={handleChange}  />
+          <button type="button" onClick={handleDuplicateSearch}>중복확인</button>
+        </div>
         <div>
           <label>이메일</label>
           <input type="email" name="email" value={formData.email} onChange={handleChange}  />
