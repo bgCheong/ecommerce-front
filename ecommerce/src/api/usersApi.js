@@ -16,7 +16,7 @@ export const signUpUser = async (userData) => {
 export const duplicateCheckUser = async (credentials) => {
 
   try {
-    const response = await apiClient.post('/api/users/duplicate', credentials);
+    const response = await apiClient.get('/api/users/duplicate', {params: credentials});
     return response.data;
   } catch (error) {
     const errorMessage = error.response?.data?.message;
@@ -64,6 +64,18 @@ export const getMyInfo = async () => {
     return response.data;
   } catch (error) {
     const errorMessage = error.response?.data?.error || '사용자 정보 조회에 실패했습니다.';
+    throw new Error(errorMessage);
+  }
+};
+
+export const deleteAccount = async () => {
+  try {
+    // API 게이트웨이가 헤더에 토큰을 자동으로 추가해주므로,
+    // 여기서는 그냥 API 경로만 호출하면 됩니다.
+    const response = await apiClient.delete('/api/users/delete');
+    return response.data;
+  } catch (error) {
+    const errorMessage = error.response?.data?.error || '회원 탈퇴처리 실패하였습니다.';
     throw new Error(errorMessage);
   }
 };

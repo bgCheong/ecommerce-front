@@ -2,46 +2,97 @@ import { useState, useEffect } from 'react';
 import { getMyInfo } from '../api/usersApi';
 
 function MyPage() {
-  // 사용자 정보, 로딩, 에러 상태를 관리
-  const [userInfo, setUserInfo] = useState(null);
+  const [formData, setFormData] = useState({
+    email: '',
+    name: '',
+    phoneNumber: '',
+    zipcode: '',
+    streetAddress: '',
+    detailAddress: '',
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
+  // 페이지 로드 시 사용자 정보 불러오기
   useEffect(() => {
     const fetchMyInfo = async () => {
       try {
         const data = await getMyInfo();
-        setUserInfo(data);
+        setFormData({
+          email: data.email,
+          name: data.name,
+          phoneNumber: data.phoneNumber || '',
+          zipcode: data.address?.zipcode || '',
+          streetAddress: data.address?.streetAddress || '',
+          detailAddress: data.address?.detailAddress || '',
+        });
       } catch (err) {
         setError(err.message);
       } finally {
         setLoading(false);
       }
     };
-
     fetchMyInfo();
-  }, []); // 페이지가 처음 로딩될 때 한 번만 실행
+  }, []);
 
-  if (loading) {
-    return <div>로딩 중...</div>;
-  }
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({ ...prevState, [name]: value }));
+  };
 
-  if (error) {
-    return <div>에러: {error}</div>;
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const updatedUser = await updateMyInfo(formData);
+      alert('회원 정보가 성공적으로 수정되었습니다.');
+      // 수정된 정보로 폼 다시 채우기
+      setFormData({
+        email: updatedUser.email,
+        name: updatedUser.name,
+        phoneNumber: updatedUser.phoneNumber || '',
+        zipcode: updatedUser.address?.zipcode || '',
+        streetAddress: updatedUser.address?.streetAddress || '',
+        detailAddress: updatedUser.address?.detailAddress || '',
+      });
+    } catch (err) {
+      alert(`수정 실패: ${err.message}`);
+    }
+  };
+
+  if (loading) return <div>로딩 중...</div>;
+  if (error) return <div>에러: {error}</div>;
 
   return (
     <div>
-      <h1>마이페이지</h1>
-      {userInfo ? (
+      <h1>회원 정보 수정</h1>
+      <form onSubmit={handleSubmit}>
         <div>
-          <p><strong>이름:</strong> {userInfo.name}</p>
-          <p><strong>이메일:</strong> {userInfo.email}</p>
-          <p><strong>전화번호:</strong> {userInfo.phoneNumber || '등록되지 않음'}</p>
+          <label>이메일 (수정 불가)</label>
+          <input type="email" name="email" value={formData.email} readOnly disabled />
         </div>
-      ) : (
-        <p>사용자 정보를 찾을 수 없습니다.</p>
-      )}
+        <div>
+          <label>이름</label>
+          <input type="text" name="name" value={formData.name} onChange={handleChange} />
+        </div>
+        <div>
+          <label>전화번호</label>
+          <input type="tel" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} />
+        </div>
+        {/* 주소 관련 필드는 추후 주소 API 연동 */}
+        <div>
+          <label>우편번호</label>
+          <input type="text" name="zipcode" value={formData.zipcode} placeholder="우편번호" />
+        </div>
+        <div>
+          <label>주소</label>
+          <input type="text" name="streetAddress" value={formData.streetAddress} placeholder="주소" />
+        </div>
+        <div>
+          <label>상세주소</label>
+          <input type="text" name="detailAddress" value={formData.detailAddress} onChange={handleChange} placeholder="상세주소" />
+        </div>
+        <button type="submit">수정하기</button>
+      </form>
     </div>
   );
 }

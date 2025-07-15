@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { signUpUser , duplicateCheckUser } from '../api/usersApi';
+import {useNavigate} from 'react-router-dom';
+
 
 function SignUpPage() {
   const [formData, setFormData] = useState({
@@ -13,12 +15,15 @@ function SignUpPage() {
     detailAddress: ''
   });
 
+  const navigate = useNavigate();
+
   // --- 추가된 부분 시작 ---
 
   // 비밀번호 유효성 검사 메시지와 상태를 위한 state
   const [passwordMessage, setPasswordMessage] = useState('');
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false); // 1. 요청 처리 중 상태 추가
+  const [duplChk , setDuplChk] = useState(false);
 
   // formData.password가 변경될 때마다 실행되는 useEffect
   useEffect(() => {
@@ -51,7 +56,16 @@ function SignUpPage() {
 
     try {
       const response = await duplicateCheckUser({ id : formData.id });
-      alert(response);
+      if(response.success==false)
+      {
+          alert('사용가능한 아이디 입니다.');
+          setDuplChk(true);
+      }
+      else
+      {
+        alert('이미 사용중인 아이디 입니다.');
+        setDuplChk(false);
+      }
     } catch (error) {
       alert(`${error.message}`);
     }
@@ -65,6 +79,12 @@ function SignUpPage() {
     e.preventDefault();
     if (!isPasswordValid) { // 비밀번호 유효성을 통과해야만 제출
       alert('비밀번호가 형식에 맞지 않습니다.');
+      return;
+    }
+
+    if(!duplChk)
+    {
+      alert('아이디 중복확인 해주세요.');
       return;
     }
 
@@ -95,6 +115,7 @@ function SignUpPage() {
     try {
       const response = await signUpUser(formData);
       alert(response);
+      navigate('/');
     } catch (error) {
       alert(`회원가입 실패: ${error.message}`);
     } finally {

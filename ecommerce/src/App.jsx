@@ -8,7 +8,7 @@ import LoginPage from './pages/LoginPage';
 import Layout from './components/Layout';
 import MyPage from './pages/MyPage';
 import ProtectedRoute from './components/ProtectedRoute';
-
+import UnregisterPage from './pages/UnregisterPage';
 
 function App() {
   // 로그인 상태를 최상위 컴포넌트에서 관리
@@ -33,6 +33,7 @@ function App() {
         {/* 로그인해야만 접근 가능한 경로 */}
         <Route element={<ProtectedRoute />}>
           <Route path="my-page" element={<MyPage />} />
+          <Route path="unregister" element={<UnregisterPage />} />
         </Route>
       </Route>
     </Routes>
