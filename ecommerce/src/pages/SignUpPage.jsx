@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { signUpUser , duplicateCheckUser } from '../api/usersApi';
 import {useNavigate} from 'react-router-dom';
+import '../Form.css';
 
 
 function SignUpPage() {

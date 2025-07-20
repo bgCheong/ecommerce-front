@@ -1,0 +1,7 @@
+/* src/App.css */
+
+.main-content {
+  max-width: 1200px;
+  margin: 2rem auto; /* 상하 여백, 좌우는 자동으로 중앙 정렬 */
+  padding: 0 2rem;
+}

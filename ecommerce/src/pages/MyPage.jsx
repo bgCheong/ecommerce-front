@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { getMyInfo } from '../api/usersApi';
+import { getMyInfo , updateMyInfo } from '../api/usersApi';
+import '../Form.css';
 
 function MyPage() {
   const [formData, setFormData] = useState({
@@ -67,8 +68,8 @@ function MyPage() {
       <h1>회원 정보 수정</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>이메일 (수정 불가)</label>
-          <input type="email" name="email" value={formData.email} readOnly disabled />
+          <label>이메일 </label>
+          <input type="email" name="email" value={formData.email} onChange={handleChange} />
         </div>
         <div>
           <label>이름</label>

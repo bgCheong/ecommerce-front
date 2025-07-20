@@ -1,0 +1,126 @@
+/* src/pages/ProductDetailPage.css */
+
+.product-detail-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 2개의 컬럼을 1:1 비율로 */
+  gap: 3rem; /* 컬럼 사이의 간격 */
+  margin-top: 2rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.product-detail-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.product-detail-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.product-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+}
+
+.product-description {
+  font-size: 1rem;
+  color: #6c757d;
+  line-height: 1.6;
+}
+
+.divider {
+  margin: 2rem 0;
+  border: 0;
+  border-top: 1px solid var(--border-color);
+}
+
+.price-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.price-label {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.product-final-price {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.quantity-selector button {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--border-color);
+  background-color: var(--light-gray);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.quantity-selector input {
+  width: 60px;
+  height: 40px;
+  text-align: center;
+  border: 1px solid var(--border-color);
+  border-left: none;
+  border-right: none;
+  font-size: 1.2rem;
+  font-weight: 500;
+  -moz-appearance: textfield; /* Firefox에서 number 화살표 숨기기 */
+}
+
+/* Chrome, Safari 등에서 number 화살표 숨기기 */
+.quantity-selector input::-webkit-outer-spin-button,
+.quantity-selector input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+.action-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: auto; /* 버튼들을 항상 아래에 위치시킴 */
+}
+
+.action-buttons button {
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-buy-now {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.btn-add-to-cart {
+  background-color: white;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+}
+
+.btn-add-to-cart:hover {
+  background-color: var(--light-gray);
+}

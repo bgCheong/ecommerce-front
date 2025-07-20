@@ -1,5 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import Header from './Header';
+import '../App.css'; // App.css import 추가
+
 
 function Layout({ isLoggedIn, setIsLoggedIn }) {
   return (

@@ -35,6 +35,21 @@ export const loginUser = async (credentials) => {
   }
 };
 
+export const getMyInfo = async () =>
+{
+  try
+  {
+    const response = await apiClient.get('/api/users/me');
+    return response.data;
+  }
+  catch(error)
+  {
+      console.log(error);
+      const errorMessage = error.response?.data?.message ||' 회원정보 불러오기 실패.';
+      throw new Error(errorMessage);
+  }
+}
+
 export const logoutUser = async () => {
   try {
     // 로그아웃 API 호출 (헤더의 토큰은 axios 인터셉터가 자동으로 추가해줌)
@@ -56,11 +71,11 @@ export const refreshToken = async (token) => {
     }
 };
 
-export const getMyInfo = async () => {
+export const updateMyInfo = async (data) => {
   try {
     // API 게이트웨이가 헤더에 토큰을 자동으로 추가해주므로,
     // 여기서는 그냥 API 경로만 호출하면 됩니다.
-    const response = await apiClient.get('/api/users/me');
+    const response = await apiClient.post('/api/users/me' , data);
     return response.data;
   } catch (error) {
     const errorMessage = error.response?.data?.error || '사용자 정보 조회에 실패했습니다.';

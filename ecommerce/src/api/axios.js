@@ -21,7 +21,8 @@ apiClient.interceptors.request.use(
     return config; // 수정된 설정으로 요청을 계속 진행
   },
   (error) => {
-    // 요청 에러 처리
+    // 요청 에러 
+    console.log("sfsfsdfsdf");
     return Promise.reject(error);
   }
 );
@@ -53,7 +54,7 @@ apiClient.interceptors.response.use(
         // 원래 실패했던 요청을 새로운 토큰으로 재시도
         return apiClient(originalRequest);
       } catch (refreshError) {
-        // 리프레시 토큰이 만료되는 등 재발급 실패 시 로그아웃 처리
+        // 리프레시 토큰이 만료되는 등 재발급 실패 시 로그아웃 
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         window.location.href = '/login'; // 로그인 페이지로 이동
